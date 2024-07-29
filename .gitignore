@@ -131,6 +131,7 @@ dist
 
 # Test data
 *.csv
+*.xlsx
 
 # OS generated files #
 ######################

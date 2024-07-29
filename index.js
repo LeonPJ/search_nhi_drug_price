@@ -18,7 +18,7 @@ const jsonData = XLSX.utils.sheet_to_json(worksheet);
 
 // create work space and sheet
 const newWorkbook = XLSX.utils.book_new();
-const newWorksheet = XLSX.utils.aoa_to_sheet([['NUM', 'CODE', 'NAME', 'PRICE']]);
+const newWorksheet = XLSX.utils.aoa_to_sheet([['NUM', 'CODE', 'NAME', 'MANUFACTURE', 'PRICE']]);
 
 async function delay(milliseconds) {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
@@ -67,13 +67,15 @@ async function searchDrugPrice(num, drugCode) {
             try {
                 const data = JSON.parse(body);
                 if (data.data && data.data.length > 0) {
+
                     const drugData = data.data[0];
                     const drugCode = drugData.druG_CODE;
                     const drugName = drugData.druG_ENAME;
                     const drugPrice = drugData.paY_PRICE;
+                    const drugManufacturer = drugData.druggisT_NAME;
 
-                    XLSX.utils.sheet_add_aoa(newWorksheet, [[num, drugCode, drugName, drugPrice]], { origin: -1 });
-                    console.log(`${drugCode} ${drugName} ${drugPrice}`);
+                    XLSX.utils.sheet_add_aoa(newWorksheet, [[num, drugCode, drugName, drugManufacturer, drugPrice]], { origin: -1 });
+                    console.log(`${drugCode} ${drugName} ${drugManufacturer} ${drugPrice}`);
                 } else {
                     XLSX.utils.sheet_add_aoa(newWorksheet, [[num, drugCode, null, 'NOT FOUND']], { origin: -1 });
                     console.log(`${drugCode} not found`);
@@ -90,7 +92,7 @@ async function searchDrugPrice(num, drugCode) {
 
 // main function
 async function processDrugList() {
-    console.log('**** DRUG SEARCH PRICE V1.0 ****');
+    console.log('**** DRUG SEARCH PRICE V1.1 ****');
     for (let i = 0; i < jsonData.length; i++) {
         const drugCode = jsonData[i].code;
         await searchDrugPrice(i + 1, drugCode);
