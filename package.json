@@ -3,14 +3,27 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "bin": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "pkg ."
   },
   "author": "Leon",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.7.2",
-    "pkg": "^5.8.1",
+    "request": "^2.88.2",
     "xlsx": "^0.18.5"
+  },
+  "pkg": {
+    "assets": [
+      "drug_list.xlsx",
+      "drug_price.xlsx"
+    ],
+    "targets": [
+      "node18-macos-x64",
+      "node18-linux-x64",
+      "node18-win-x64"
+    ],
+    "output": "dist/search_nhi_drug_price"
   }
 }
